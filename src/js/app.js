@@ -10,16 +10,22 @@ App = {
 
   initWeb3: function () {
     // TODO: refactor conditional
-    if (typeof web3 !== 'undefined') {
-      // If a web3 instance is already provided by Meta Mask.
-      App.web3Provider = web3.currentProvider;
-      web3 = new Web3(web3.currentProvider);
-    } else {
-      // Specify default instance if no web3 instance provided
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-      ethereum.enable();
-      web3 = new Web3(App.web3Provider);
-    }
+    // if (typeof web3 !== 'undefined') {
+    //   // If a web3 instance is already provided by Meta Mask.
+    //   App.web3Provider = web3.currentProvider;
+    //   web3 = new Web3(web3.currentProvider);
+    // } else {
+    //   // Specify default instance if no web3 instance provided
+    //   App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+    //   ethereum.enable();
+
+    //   web3 = new Web3(App.web3Provider);
+    // }
+
+    App.web3Provider = web3.currentProvider || new Web3.providers.HttpProvider('http://localhost:8545');
+    ethereum.enable();
+
+    web3 = new Web3(App.web3Provider);
     return App.initContract();
   },
 
@@ -75,6 +81,7 @@ App = {
       <span style="font-weight:600">${account[0]}</span></span><br><br>
       <small>(Refresh the page if you've migrated to new account)</small>`);
       App.account = account[0];
+
       $('#bv-address').text(`${App.account}`)
       document.getElementById("bv-qr-code").innerHTML = "";
 
